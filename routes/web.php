@@ -3,6 +3,7 @@
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('index');
+});
+Route::get('/payment', function () {
+    return view('welcome');
 });
 Route::get('/login', function () {
     return view('login.login');
@@ -42,3 +46,8 @@ Route::post('/material-store', [MaterialController::class, 'store'])->name('mate
 // Route::get('/course-search', [MaterialController::class, 'search'])->name('material.search');
 Route::get('/comment/{material_id}', [CommentController::class, 'add'])->name('comment.add');
 Route::post('/comment-store', [CommentController::class, 'store'])->name('comment.store');
+
+
+Route::post('/pay', [PaymentController::class, 'pay'])->name('pay');
+Route::get('/success', [PaymentController::class, 'paySuccess']);
+Route::get('/failure', [PaymentController::class, 'payFailure']);
