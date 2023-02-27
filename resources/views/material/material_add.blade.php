@@ -1,3 +1,5 @@
+@section('material_add', 'active')
+@section('material_child_operate', 'active')
 @extends('layout.layout')
 @section('sidebar')
     @include('layout.sidebar')

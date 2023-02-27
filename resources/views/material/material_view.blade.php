@@ -1,3 +1,5 @@
+@section('material_view', 'active')
+@section('material_child_operate', 'menu-open')
 @extends('layout.layout')
 @section('sidebar')
     @include('layout.sidebar')

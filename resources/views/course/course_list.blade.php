@@ -1,3 +1,5 @@
+@section('course_view', 'active')
+@section('course_child_operate', 'menu-open')
 @extends('layout.layout')
 @section('sidebar')
     @include('layout.sidebar')

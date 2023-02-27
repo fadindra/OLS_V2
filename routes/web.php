@@ -29,9 +29,9 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return view('login.register');
 })->name('register');
-Route::get('/home', function () {
-    return view('homepage');
-})->name('homepage');
+Route::get('/course-detail', function () {
+    return view('course_detail');
+})->name('course.detail');
 
 Route::get('/course-add', [CourseController::class, 'add'])->name('course.add');
 Route::get('/course-view', [CourseController::class, 'index'])->name('course.view');
@@ -40,6 +40,8 @@ Route::get('/course-edit/{course}',[CourseController::class,'edit'])->name('cour
 Route::post('/course-update', [CourseController::class, 'update'])->name('course.update');
 Route::get('/course-delete/{course}', [CourseController::class, 'delete'])->name('course.delete');
 Route::get('/course-search', [CourseController::class, 'search'])->name('course.search');
+Route::get('/home', [CourseController::class, 'getAll'])->name('homepage');
+Route::get('/course-detail/{course}', [CourseController::class, 'getById'])->name('course.detail');
 Route::get('/resource-view', [MaterialController::class, 'index'])->name('material.view');
 Route::get('/resource-add', [MaterialController::class, 'getById'])->name('material.add');
 Route::post('/material-store', [MaterialController::class, 'store'])->name('material.store');

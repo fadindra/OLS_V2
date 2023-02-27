@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CourseController extends Controller
 {
@@ -15,6 +16,16 @@ class CourseController extends Controller
         ->get();
         return view('course.course_view', ['data' => $course]);
     }
+    public function getAll()
+    {
+        // $course = Course::query()
+        // ->orderBy('id','desc')
+        // ->get();
+        $course = DB::table('courses')
+        ->orderBy('id','desc')
+        ->paginate(6);
+        return view('homepage', ['data' => $course]);
+    } 
     public function add()
     {
         return view('course.course_add');
@@ -67,10 +78,11 @@ class CourseController extends Controller
     }    
         return redirect(route('course.view'))->with('status', 'Course Updated !!');
     }
-    public function getById(Request $request)
+    public function getById(Course $course)
     {
-        $course = Course::query()->where('id', $request->id)->first();
-        return response()->json($course);
+        return view('course_detail', [
+            'course' => $course,
+        ]);
     }
     public function edit(Course $course)
     {

@@ -59,7 +59,7 @@
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-            <strong>Copyright &copy; <a href="#">Fadindra Raj Banjara</a>.</strong>
+            <strong>Copyright &copy; <a href="#">OLS</a>.</strong>
             All rights reserved.
         </footer>
 
