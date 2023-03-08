@@ -32,17 +32,17 @@
                                         <div class="card-deck" style="width: 29rem;">
                                             <div class="card mt-2 mb-2 mr-4 px-2">
                                                 @if ($material->file_extension == 'pdf' || $material->file_extension == 'png')
-                                                        <iframe height="225px" width="100%" src="../../dist/img/files.png"
-                                                            name="{{ $material->title }}" style="border:none;">
-                                                        </iframe>
+                                                    <iframe height="225px" width="100%" src="../../dist/img/files.png"
+                                                        name="{{ $material->title }}" style="border:none;">
+                                                    </iframe>
                                                 @elseif($material->file_extension == 'mp4')
-                                                        <video width="370" height="240" controls preload="metadata"
-                                                            controlsList="nodownload nofullscreen noremoteplayback">
-                                                            <source src="/storage/{{ $material->files }}" type="video/mp4">
-                                                        </video>
+                                                    <video width="370" height="240" controls preload="metadata"
+                                                        controlsList="nodownload nofullscreen noremoteplayback">
+                                                        <source src="/storage/{{ $material->files }}" type="video/mp4">
+                                                    </video>
                                                 @endif
                                                 <div class="card-body">
-                                                    <a href="{{ route('comment.add',['material_id' =>$material->id]) }}">
+                                                    <a href="{{ route('comment.add',['material_id' => $material->id]) }}">
                                                         <h5 class="card-title">{{ $material->title }}</h5>
                                                     </a>
                                                     <p class="card-text">{{ $material->description }}</p>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
@@ -19,16 +20,20 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('index');
-});
+})->middleware('auth')->name('index');
+
 Route::get('/payment', function () {
     return view('welcome');
-});
-Route::get('/login', function () {
-    return view('login.login');
-})->name('login');
-Route::get('/register', function () {
-    return view('login.register');
-})->name('register');
+})->name('course.payment');
+
+// Route::get('/login', function () {
+//     return view('login.login');
+// })->name('login');
+
+// Route::get('/register', function () {
+//     return view('login.register');
+// })->name('register');
+
 Route::get('/course-detail', function () {
     return view('course_detail');
 })->name('course.detail');
@@ -54,3 +59,19 @@ Route::post('/comment-store', [CommentController::class, 'store'])->name('commen
 Route::post('/pay', [PaymentController::class, 'pay'])->name('pay');
 Route::get('/success', [PaymentController::class, 'paySuccess']);
 Route::get('/failure', [PaymentController::class, 'payFailure']);
+
+
+// Login Routes
+// Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+// Route::post('/login', [LoginController::class, 'login']);
+// Route::get('/register', [LoginController::class, 'showRegistrationForm'])->name('register');
+// Route::post('/register', [LoginController::class, 'register']);
+// Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('dashboard', [LoginController::class, 'dashboard']); 
+Route::get('login', [LoginController::class, 'index'])->name('login');
+Route::post('custom-login', [LoginController::class, 'customLogin'])->name('login.custom'); 
+Route::get('registration', [LoginController::class, 'registration'])->name('register-user');
+Route::post('custom-registration', [LoginController::class, 'customRegistration'])->name('register.custom'); 
+Route::get('signout', [LoginController::class, 'signOut'])->name('signout');
+Route::get('profile', [LoginController::class, 'profile'])->name('profile');
