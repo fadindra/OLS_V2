@@ -15,14 +15,29 @@
     <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+    {{-- custom css --}}
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
 
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" id="page-top">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="mainNav">
+        <div class="container px-4">
+            <a class="navbar-brand" href="{{ route('homepage') }}">Online Learning System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span
+                    class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Register</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <div class="login-box">
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="../../index2.html" class="h1"><b>OLS</a>
+                <a href="{{ route('homepage') }}" class="h1"><b>OLS</a>
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
@@ -75,7 +90,7 @@
         <a href="forgot-password.html">I forgot my password</a>
       </p> --}}
                 <p class="mb-0">
-                    <a href="{{route('register')}}" class="text-center">Register a new membership</a>
+                    <a href="{{ route('register') }}" class="text-center">Register a new membership</a>
                 </p>
             </div>
             <!-- /.card-body -->

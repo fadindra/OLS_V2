@@ -33,6 +33,7 @@
 
     @yield('styles')
 </head>
+
 <body>
     @yield('content')
 </body>

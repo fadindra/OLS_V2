@@ -15,13 +15,28 @@
     <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+    {{-- custom css --}}
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
 
-<body class="hold-transition register-page">
+<body class="hold-transition register-page" id="page-top">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="mainNav">
+        <div class="container px-4">
+            <a class="navbar-brand" href="{{ route('homepage') }}">Online Learning System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span
+                    class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <div class="register-box">
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="../../index2.html" class="h1">OLS</a>
+                <a href="{{ route('homepage') }}" class="h1">OLS</a>
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Register a new membership</p>

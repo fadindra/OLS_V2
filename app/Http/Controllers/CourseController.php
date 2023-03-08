@@ -16,6 +16,13 @@ class CourseController extends Controller
         ->get();
         return view('course.course_view', ['data' => $course]);
     }
+    public function course_list()
+    {
+        $course = Course::query()
+        ->orderBy('id','desc')
+        ->get();
+        return view('course.course_list', ['data' => $course]);
+    }
     public function getAll()
     {
         // $course = Course::query()

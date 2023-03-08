@@ -41,17 +41,26 @@
         <div class="container px-4">
             <div class="row gx-4 justify-content-center">
                 <div class="col-lg-8">
-                    <h2>About this page</h2>
-                    <p class="lead">This is a great place to talk about your webpage. This template is purposefully
-                        unstyled so you can use it as a boilerplate or starting point for you own landing page designs!
-                        This template features:</p>
-                    <ul>
-                        <li>Clickable nav links that smooth scroll to page sections</li>
-                        <li>Responsive behavior when clicking nav links perfect for a one page website</li>
-                        <li>Bootstrap's scrollspy feature which highlights which section of the page you're on in the
-                            navbar</li>
-                        <li>Minimal custom CSS so you are free to explore your own unique design options</li>
-                    </ul>
+                    <h2>About Online Learning System</h2>
+                    <p class="lead">Welcome to our Online Learning System (OLS) - a comprehensive digital platform
+                        designed to
+                        provide a flexible and accessible learning experience for learners of all ages and backgrounds.
+                        Our OLS system offers a range of online courses, resources, and tools to help you achieve your
+                        academic and professional goals on your own terms.
+
+                        Our OLS platform allows you to access educational resources and complete coursework online from
+                        any location with an internet connection. Whether you are a busy professional looking to
+                        upskill, a student pursuing higher education, or someone looking to learn a new skill, our OLS
+                        system offers a flexible and convenient learning experience that can be tailored to your needs.
+
+                        Our online learning system is designed to offer a range of multimedia content, including videos
+                        to facilitate learning. With our OLS system, you can learn at your own pace.
+
+                        Our OLS platform is also cost-effective and eliminates the need for physical classrooms and
+                        other expenses associated with traditional in-person instruction.
+
+                        Thank you for choosing our OLS system - we look forward to helping you achieve your academic and
+                        professional goals through our comprehensive online learning platform.</p>
                 </div>
             </div>
         </div>
@@ -62,21 +71,26 @@
             <div class="row gx-4 justify-content-center">
                 <div class="col-lg-8">
                     <h2>Courses we offer</h2>
-                    <p class="lead">We offer the various courses among all the topics and the learners can choose the best among the courses available</p>
-                   <div class="d-flex align-content-start flex-wrap">
-                    @foreach ($data as $key => $item)
-                        <div class="card mt-3 px-3 py-3 lead" style="width: 15rem;margin-right:40px;">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $item->course_name }}</h5>
-                                <p class="card-text">{{$item->description}}</p>
-                                <a href="{{route('course.detail',$item->id)}}" class="btn btn-primary">View Details</a>
+                    <p class="lead">We offer the various courses among all the topics and the learners can choose the
+                        best among the courses available</p>
+                    <div class="d-flex align-content-start flex-wrap">
+                        @foreach ($data as $key => $item)
+                            <div class="card mt-3 px-3 py-3 lead" style="width: 15rem;margin-right:40px;">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $item->course_name }}</h5>
+                                    <p class="card-text">{{ $item->description }}</p>
+                                    <a href="{{ route('course.detail', $item->id) }}" class="btn btn-primary">View
+                                        Details</a>
+                                </div>
                             </div>
-                        </div>
-                    @endforeach
-                   </div>
+                        @endforeach
+                    </div>
                 </div>
-            </div>
-        </div>
+                <div class="container px-4 text-center">
+                    <a class="btn btn-lg btn-white mt-3" href="{{ route('course.list') }}">View More Courses</a>
+                    <div>
+                    </div>
+                </div>
     </section>
     <!-- Contact section-->
     <section id="contact">

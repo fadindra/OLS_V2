@@ -35,6 +35,7 @@ Route::get('/course-detail', function () {
 
 Route::get('/course-add', [CourseController::class, 'add'])->name('course.add');
 Route::get('/course-view', [CourseController::class, 'index'])->name('course.view');
+Route::get('/course-list', [CourseController::class, 'course_list'])->name('course.list');
 Route::post('/course-store', [CourseController::class, 'store'])->name('course.store');
 Route::get('/course-edit/{course}',[CourseController::class,'edit'])->name('course.edit');
 Route::post('/course-update', [CourseController::class, 'update'])->name('course.update');
