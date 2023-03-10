@@ -77,10 +77,10 @@
                     </div>
                     <div class="btn-group">
                         <div class="h5">Role:
-                        <input type="radio" class="btn-check" name="role" id="learner" autocomplete="off" checked />
+                        <input type="radio" class="btn-check" name="role" value="learner" id="learner" autocomplete="off" checked />
                         <label class="btn btn-outline-primary btn-rounded" for="learner">Learner</label>
                       
-                        <input type="radio" class="btn-check" name="role" id="instructor" autocomplete="off" />
+                        <input type="radio" class="btn-check" name="role" id="instructor" value="instructor" autocomplete="off" />
                         <label class="btn btn-outline-primary btn-rounded" for="instructor">Instructor</label>
                         </div>
                       </div>

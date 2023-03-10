@@ -22,9 +22,9 @@ Route::get('/', function () {
     return view('index');
 })->middleware('auth')->name('index');
 
-Route::get('/payment', function () {
-    return view('welcome');
-})->name('course.payment');
+// Route::get('/payment', function () {
+//     return view('welcome');
+// })->name('course.payment');
 
 // Route::get('/login', function () {
 //     return view('login.login');
@@ -41,6 +41,7 @@ Route::get('/course-detail', function () {
 Route::get('/course-add', [CourseController::class, 'add'])->name('course.add');
 Route::get('/course-view', [CourseController::class, 'index'])->name('course.view');
 Route::get('/course-list', [CourseController::class, 'course_list'])->name('course.list');
+Route::get('/learner-course-list', [CourseController::class, 'getCourseByLearner'])->name('learners.courselist');
 Route::post('/course-store', [CourseController::class, 'store'])->name('course.store');
 Route::get('/course-edit/{course}',[CourseController::class,'edit'])->name('course.edit');
 Route::post('/course-update', [CourseController::class, 'update'])->name('course.update');
@@ -59,6 +60,7 @@ Route::post('/comment-store', [CommentController::class, 'store'])->name('commen
 Route::post('/pay', [PaymentController::class, 'pay'])->name('pay');
 Route::get('/success', [PaymentController::class, 'paySuccess']);
 Route::get('/failure', [PaymentController::class, 'payFailure']);
+Route::get('/payment/{course}', [PaymentController::class, 'index'])->name('course.payment');
 
 
 // Login Routes

@@ -32,7 +32,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-    ];
+    ]; 
 
     /**
      * The attributes that should be cast.
@@ -42,4 +42,26 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $guarded = [];
+    
+    public function courses()
+    { 
+    
+        return $this->hasMany(Course::class);
+    }
+    public function materials()
+    { 
+    
+        return $this->hasMany(Material::class);
+    }
+    public function comments()
+    { 
+    
+        return $this->hasMany(Comment::class);
+    }
+    public function users()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

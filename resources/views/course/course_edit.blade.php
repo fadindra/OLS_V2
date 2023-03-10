@@ -1,4 +1,4 @@
-@section('course_view', 'active')
+@section('course_add', 'active')
 @section('course_child_operate', 'menu-open')
 @extends('layout.layout')
 @section('sidebar')
@@ -6,8 +6,8 @@
 @endsection
 
 @section('content')
-    <div class="card text-md ">
-        <div class="card-header my-2">
+<div class="card" style="overflow-y: scroll; height: 100%; margin-left: -15px;">
+        <div class="card-header">
             <div class="row my-1">
                 <div class="col-md-6" style="margin-bottom:-5px;">
                     <p class="">{{ __('Edit Course') }}</p>
@@ -58,7 +58,7 @@
                         <div class="mb-3">
                             <label for="type" class="form-label">Image Related to Course: </label>
                             <input type="file" name="image" value="{{ $course->image }}" class="form-control">
-                            <img style="width:275px;height:140px;float:right;margin-top:-190px;"
+                            <img style="width:275px;height:140px;margin-left:450px;margin-top:-50px;"
                                 src='{{ asset('storage/' . $course->image) }}'>
                             @error('image')
                                 <div class="alert alert-light text-danger" role="alert">

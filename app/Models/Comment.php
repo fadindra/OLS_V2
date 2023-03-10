@@ -21,10 +21,10 @@ class Comment extends Model
     
     public function course()
     {
-      return $this->belongsTo(Course::class);
+      return $this->hasMany(Course::class);
     }
     public function materials()
     {
-      return $this->belongsTo(Material::class);
+      return $this->hasMany(Material::class);
     }
 }

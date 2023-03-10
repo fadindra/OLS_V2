@@ -10,8 +10,19 @@ class MaterialController extends Controller
 {
     public function index()
     {
-        $course = Course::query()
-        ->get();
+        if(auth()->user()->role =='learner'){
+            $user_type = 'learner';
+        }else{
+            $user_type = 'instructor';
+        }
+        if($user_type=='instructor'){
+            $course = Course::query()->where('instructor_id','auth()->user()->id')
+            ->get();
+        }else{
+            $course = Course::query()->with('orders')
+            ->get();
+        }
+        // dd($course);
         return view('material.material_view', ['data' => $course]);
     }
     public function getById(Request $request)

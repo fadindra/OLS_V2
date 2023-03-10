@@ -63,6 +63,7 @@
 
                     </div>
                 </div>
+                @if(auth()->user()->role =='instructor')
                 <div class="col col-lg-3">
                     <div class="card bg-dark">
                         <div class="card-header text-bold">
@@ -106,6 +107,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
         </form>
         <!-- /.card-body -->
     </div>

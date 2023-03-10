@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -15,7 +16,7 @@ class LoginController extends Controller
         return view('login.login');
     }  
       
-    public function customLogin(Request $request)
+    public function customLogin(Request $request): RedirectResponse
     {
         // dd($request->all());
         $request->validate([
@@ -29,7 +30,8 @@ class LoginController extends Controller
             ->withSuccess('Signed in');
         }
   
-        return redirect("login")->withSuccess('Login details are not valid');
+        // return redirect("login")->withSuccess('Login details are not valid');
+        return redirect("login")->with('status', 'Login details are not valid !!');
     }
 
     public function registration()
@@ -44,7 +46,7 @@ class LoginController extends Controller
         return view('profile', ['profile' => $user]);
     }
       
-    public function customRegistration(Request $request)
+    public function customRegistration(Request $request): RedirectResponse
     {  
         $request->validate([
             'name' => 'required',
@@ -54,6 +56,7 @@ class LoginController extends Controller
         ]);
            
         $data = $request->all();
+        // dd($data);
         $check = $this->create($data);
          
         return redirect("dashboard")->withSuccess('You have signed-in');
@@ -64,7 +67,8 @@ class LoginController extends Controller
       return User::create([
         'name' => $data['name'],
         'email' => $data['email'],
-        'password' => Hash::make($data['password'])
+        'password' => Hash::make($data['password']),
+        'role' => $data['role']
       ]);
     }    
     

@@ -6,13 +6,15 @@
 @endsection
 
 @section('content')
-    <div class="card ">
+    <div class="card" style="overflow-y: scroll; height: 100%; margin-left: -15px;">
         <div class="card-header">
             <h3 class="card-title">Course List</h3>
-            <a href="{{ route('course.add') }}"><button class="float-right btn btn-primary" style="float: right;">
-                    <i class="fa fa-plus"> Add New</i>
-                </button>
-            </a>
+            @if (auth()->user()->role == 'instructor')
+                <a href="{{ route('course.add') }}"><button type="button" class="float-right btn btn-outline-primary" style="float: right;">
+                        <i class="fa fa-plus"></i> {{ __('Add New') }}</button>
+                </a>
+                
+            @endif
         </div>
         <div class="card-body mt-1">
             @if (session('status'))
@@ -22,64 +24,86 @@
             @endif
             <div class="mb-3">
                 <div class="mx-auto pull-right">
-                    <div class="">
-                        <form action="{{ route('course.search') }}" method="GET" role="search">
-
-                            <div class="input-group">
-                                <span class="input-group-btn mr-3 mt-1">
-                                    <button class="btn btn-info" type="submit" title="Search Courses">
-                                        <span class="fas fa-search"></span>
-                                    </button>
-                                </span>
-                                <input type="text" class="form-control mr-2" name="search" placeholder="Search Courses"
-                                    oninput="add_element_to_array()" id="search" value="{{ request('search') }}">
-                                <a href="{{ route('course.view') }}" class=" mt-1">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-danger" type="button" title="Refresh page">
-                                            <span class="fas fa-sync-alt"></span>
+                        @if (auth()->user()->role == 'instructor')
+                            <form action="{{ route('course.search') }}" method="GET" role="search">
+                                <div class="input-group">
+                                    <span class="input-group-btn mr-3 mt-1">
+                                        <button class="btn btn-info" type="submit" title="Search Courses">
+                                            <span class="fas fa-search"></span>
                                         </button>
                                     </span>
-                                </a>
-                            </div>
-                        </form>
-                    </div>
+                                    <input type="text" class="form-control mr-2" name="search"
+                                        placeholder="Search Courses" oninput="add_element_to_array()" id="search"
+                                        value="{{ request('search') }}">
+                                    <a href="{{ route('course.view') }}" class=" mt-1">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-danger" type="button" title="Refresh page">
+                                                <span class="fas fa-sync-alt"></span>
+                                            </button>
+                                        </span>
+                                    </a>
+                                </div>
+                            </form>
+                        @else
+                            <nav class="navbar navbar-light bg-light ">
+                                <input class="form-control sm-4 quicksearch" name="quicksearch" type="text"
+                                    placeholder="Search" aria-label="Search" id="quicksearch" autofocus>
+                            </nav>
+                        @endif
                 </div>
             </div>
             <!-- /.card-header -->
-            <div class="d-flex justify-content-around flex-wrap">
-                @if ($data->isNotEmpty())
-                    @foreach ($data as $key => $item)
-                        {{-- @dd($item); --}}
-
-                        <div class="card text-center">
-                            <div class="card-header">
-                                <h5 class="mt-2 text-center">
-                                    <a href="{{ route('course.edit', $item->id) }}"><button type="button"
-                                            class="btn btn-sm btn-outline-primary">Edit</button></a>
-                                    <a href="{{ route('course.delete', $item->id) }}"><button type="button"
-                                            class="btn btn-sm btn-outline-danger"
-                                            onclick="return confirm('Are you Sure ?')">Delete</button></a>
-                                </h5>
+            <div class="item d-flex flex-wrap">
+                <div class="card-body item-material d-flex flex-wrap" id="item">
+                    @if (count($data))
+                        @foreach ($data as $key => $course)
+                            <div class="card-deck" style="width: 20rem;">
+                                <div class="card mt-2 mb-2 mr-4">
+                                    @if (auth()->user()->role == 'instructor')
+                                        <div class="card-header">
+                                            <h5 class="mt-2 text-center">
+                                                <a href="{{ route('course.edit', $course->id) }}"><button type="button"
+                                                        class="btn btn-sm btn-outline-primary">Edit</button></a>
+                                                <a href="{{ route('course.delete', $course->id) }}"><button type="button"
+                                                        class="btn btn-sm btn-outline-danger"
+                                                        onclick="return confirm('Are you Sure ?')">Delete</button></a>
+                                            </h5>
+                                        </div>
+                                    @endif
+                                    <img height="225px" width="100%" src="/storage/{{ $course->image }}"
+                                        style="border:none;">
+                                    </img>
+                                    <div class="card-body">
+                                        <p class="card-text"><small class="text-muted">{{ $course->course_name }}</small>
+                                        </p>
+                                        {{-- <p class="card-text"><small class="text-muted">{{ $course->created_at }}</small>
+                                        </p> --}}
+                                        <a href="{{ route('course.detail', $course->id) }}" class="btn btn-primary">View
+                                            Details</a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <img style="width:20rem; height:10rem;" class="card-img-top"
-                                    src="/storage/{{ $item->image }}"><br>
-                                <a href="#" class="btn btn-primary mt-2">Rs.{{ $item->price }}/-</a>
-                            </div>
-                            <div class="card-footer text-muted text-bold text-wrap"
-                                style="max-width: 400px;min-height:100px;">
-                                <h3 class="mt-1">{{ $item->course_name }}</h3>
-                            </div>
-                        </div>
-                    @endforeach
-                @else
-                    <div>
-                        <h2>No Courses found</h2>
-                    </div>
-                @endif
+                        @endforeach
+                    @else
+                        <tr>
+                            <th class="text-center">No data found</th>
+                        </tr>
+                    @endif
+                </div>
             </div>
             <!-- /.card-body -->
         </div>
         <!-- /.card -->
     </div>
 @endsection
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#quicksearch").on("input", function() {
+            var value = $(this).val();
+            $("#item div").filter(function() {
+                $(this).toggle($(this).text().indexOf(value) > -1)
+            });
+        });
+    });
+</script>

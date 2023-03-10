@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Order;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,8 +12,9 @@ class CourseController extends Controller
 {
     public function index()
     {
-        $course = Course::query()
-        ->orderBy('id','desc')
+        // $courses = DB::select("SELECT orders.course_id FROM orders INNER JOIN courses ON courses.id NOT IN (orders.course_id);");
+        // dd($courses);
+        $course = Course::with('orders')
         ->get();
         return view('course.course_view', ['data' => $course]);
     }
@@ -25,9 +27,6 @@ class CourseController extends Controller
     }
     public function getAll()
     {
-        // $course = Course::query()
-        // ->orderBy('id','desc')
-        // ->get();
         $course = DB::table('courses')
         ->orderBy('id','desc')
         ->paginate(6);
@@ -87,6 +86,8 @@ class CourseController extends Controller
     }
     public function getById(Course $course)
     {
+        $course = Course::query()->where('id', $course->id)->with('materials','orders')->first();
+        // dd($course);
         return view('course_detail', [
             'course' => $course,
         ]);
@@ -111,5 +112,13 @@ class CourseController extends Controller
             ->orWhere('price', 'LIKE', "%{$search}%")
             ->get();
         return view('course.course_view', ['data' => $course]);
+    }
+    public function getCourseByLearner(){
+        // $course = DB::select("SELECT courses.id, courses.image, courses.course_name, courses.price, courses.created_at,users.id, orders.course_id FROM courses INNER JOIN orders ON orders.course_id = courses.id INNER JOIN users ON orders.user_id = users.id WHERE (orders.esewa_status != 'failed' AND orders.esewa_status != 'unverified'); ");
+        // $user_id= auth()->user()->id;
+        // dd($user_id);
+        $course = Course::with('orders')
+        ->get();
+        return view('course.course_list', ['data' => $course]);
     }
 }

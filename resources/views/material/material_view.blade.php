@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-    <div class="card">
+    <div class="card" style="overflow-y: scroll; height: 100%; margin-left: -15px;">
         <div class="card-header">View Resources</div>
         <div class="card-body mt-1">
             @if (session('status'))
@@ -21,8 +21,12 @@
                     @if ($data->isNotEmpty())
                         <option selected>Select</option>
                         @foreach ($data as $key => $item)
-                            <option value="{{ $item->id }}">{{ $item['course_name'] }}
-                            </option>
+                            @foreach ($item->orders as $key => $order)
+                                @if ($order->course_id == $item->id && auth()->user()->id == $order->user_id )
+                                    <option value="{{ $item->id }}">{{ $item['course_name'] }}
+                                    </option>
+                                @endif
+                            @endforeach
                         @endforeach
                     @else
                         <div>

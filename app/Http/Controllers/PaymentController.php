@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -13,8 +14,16 @@ use Cixware\Esewa\Client;
 use Cixware\Esewa\Config;
 class PaymentController extends Controller
 {
+    public function index(Course $course)
+    {
+        $course = Course::query()->where('id', $course->id)->with('materials')->first();
+        // dd($course);
+        return view('welcome', [
+            'course' => $course,
+        ]);
+    }
     public function pay(Request $request){
-        $course_id = uniqid();
+        $course_id = $request->course_id;
         $amount = $request->amount;
 
         Order::insert([

@@ -1,4 +1,8 @@
+@if(auth()->user()->role=='instructor')
 @section('course_add', 'active')
+@else
+@section('course_view_student', 'active')
+@endif
 @section('course_child_operate', 'menu-open')
 @extends('layout.layout')
 @section('sidebar')
@@ -6,8 +10,8 @@
 @endsection
 
 @section('content')
-    <div class="card text-md ">
-        <div class="card-header my-2">
+<div class="card" style="overflow-y: scroll; height: 100%; margin-left: -15px;">
+        <div class="card-header">
             <div class="row my-1">
                 <div class="col-md-6" style="margin-bottom:-5px;">
                     <p class="">{{ __('Add Course') }}</p>

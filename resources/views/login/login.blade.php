@@ -20,19 +20,13 @@
 </head>
 
 <body class="hold-transition login-page" id="page-top">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="mainNav">
-        <div class="container px-4">
-            <a class="navbar-brand" href="{{ route('homepage') }}">Online Learning System</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span
-                    class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ route('register-user') }}">Register</a></li>
-                </ul>
-            </div>
+
+    @extends('layout.custom_navbar')
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
         </div>
-    </nav>
+    @endif
     <div class="login-box">
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
@@ -44,13 +38,18 @@
 
                 <form method="POST" action="{{ route('login.custom') }}">
                     @csrf
-                    <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Email" name="email">
+                    <div class="input-group mb-3 needs-validation" novalidate>
+                        <input type="email" class="form-control" placeholder="Email" name="email" value="{{ old('email') }}">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
                             </div>
                         </div>
+                        @error('email')
+                            <div class="alert alert-light text-danger" role="alert">
+                                {{ __('Valid Email Required') }}
+                            </div>
+                        @enderror
                     </div>
                     <div class="input-group mb-3">
                         <input type="password" class="form-control" placeholder="Password" name="password">
@@ -59,6 +58,11 @@
                                 <span class="fas fa-lock"></span>
                             </div>
                         </div>
+                        @error('password')
+                            <div class="alert alert-light text-danger" role="alert">
+                                {{ __('Invalid Password') }}
+                            </div>
+                        @enderror
                     </div>
                     <div class="row">
                         <div class="col-8">
@@ -76,23 +80,6 @@
                         <!-- /.col -->
                     </div>
                 </form>
-
-                {{-- <div class="social-auth-links text-center mt-2 mb-3">
-        <a href="#" class="btn btn-block btn-primary">
-          <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-        </a>
-        <a href="#" class="btn btn-block btn-danger">
-          <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-        </a>
-      </div> --}}
-                <!-- /.social-auth-links -->
-
-                {{-- <p class="mb-1">
-        <a href="forgot-password.html">I forgot my password</a>
-      </p> --}}
-                <p class="mb-0">
-                    <a href="{{ route('register-user') }}" class="text-center">Register a new membership</a>
-                </p>
             </div>
             <!-- /.card-body -->
         </div>
