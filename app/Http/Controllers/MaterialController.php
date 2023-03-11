@@ -5,25 +5,36 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\Material;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MaterialController extends Controller
 {
     public function index()
     {
-        if(auth()->user()->role =='learner'){
-            $user_type = 'learner';
+        $role = auth()->user()->role;
+        if($role == 'learner'){
+            $user_id = auth()->user()->id;
+            $user_courses_ids = DB::select("SELECT course_id FROM orders WHERE user_id = $user_id AND esewa_status = 'verified';");
+            foreach ($user_courses_ids as $key => $user_courses_id) 
+            {
+                $course_ids_arr[] = $user_courses_id->course_id;
+            }
+            $course_ids = implode(',', $course_ids_arr);
+            if(isset($course_ids))
+            {
+                $course = DB::select("SELECT * FROM courses WHERE id IN ($course_ids);");
+                return view('material.material_view', ['data' => $course,'role' => $role]);
+            }
+            else{
+                $course = DB::select("SELECT * FROM courses;");
+                return view('material.material_view', ['data' => $course,'role' => $role]);
+            }
         }else{
-            $user_type = 'instructor';
+            $user_id= auth()->user()->id;
+            $course = DB::select("SELECT * FROM courses WHERE instructor_id = $user_id;");
+            // dd($course);
+            return view('material.material_view', ['data' => $course,'role' => $role]);
         }
-        if($user_type=='instructor'){
-            $course = Course::query()->where('instructor_id','auth()->user()->id')
-            ->get();
-        }else{
-            $course = Course::query()->with('orders')
-            ->get();
-        }
-        // dd($course);
-        return view('material.material_view', ['data' => $course]);
     }
     public function getById(Request $request)
     {

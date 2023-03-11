@@ -18,19 +18,15 @@
                 @csrf
                 Select Course :
                 <select name="course_id" class="js-example-basic-single js-states form-control-sm" id="courses">
-                    @if ($data->isNotEmpty())
+                    @if (isset($data))
                         <option selected>Select</option>
                         @foreach ($data as $key => $item)
-                            @foreach ($item->orders as $key => $order)
-                                @if ($order->course_id == $item->id && auth()->user()->id == $order->user_id )
-                                    <option value="{{ $item->id }}">{{ $item['course_name'] }}
-                                    </option>
-                                @endif
-                            @endforeach
+                            <option value="{{ $item->id }}">{{ $item->course_name }}
+                            </option>
                         @endforeach
                     @else
                         <div>
-                            <option selected>Courses Not Available</option>
+                            Oops !!
                         </div>
                     @endif
                 </select>
@@ -38,7 +34,6 @@
                     <span class="fas fa-search">&nbsp;Get</span>
                 </button>
             </form>
-
             <!-- /.card-body -->
         </div>
         <!-- /.card -->

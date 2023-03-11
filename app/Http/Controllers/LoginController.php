@@ -59,7 +59,7 @@ class LoginController extends Controller
         // dd($data);
         $check = $this->create($data);
          
-        return redirect("dashboard")->withSuccess('You have signed-in');
+        return redirect(route('login'))->with('status', 'User Created Successfully !!');
     }
 
     public function create(array $data)

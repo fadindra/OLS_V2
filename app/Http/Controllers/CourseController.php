@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Material;
 use App\Models\Order;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -12,11 +13,29 @@ class CourseController extends Controller
 {
     public function index()
     {
-        // $courses = DB::select("SELECT orders.course_id FROM orders INNER JOIN courses ON courses.id NOT IN (orders.course_id);");
-        // dd($courses);
-        $course = Course::with('orders')
-        ->get();
-        return view('course.course_view', ['data' => $course]);
+        $role = auth()->user()->role;
+        if($role == 'learner'){
+            $user_id = auth()->user()->id;
+            $user_courses_ids = DB::select("SELECT course_id FROM orders WHERE user_id = $user_id AND esewa_status = 'verified';");
+            foreach ($user_courses_ids as $key => $user_courses_id) 
+            {
+                $course_ids_arr[] = $user_courses_id->course_id;
+            }
+        $course_ids = implode(',', $course_ids_arr);
+            if(isset($course_ids))
+            {
+                $course = DB::select("SELECT * FROM courses WHERE id NOT IN ($course_ids);");
+                return view('course.course_view', ['data' => $course,'role' => $role]);
+            }
+            else{
+                $course = DB::select("SELECT * FROM courses;");
+                return view('course.course_view', ['data' => $course,'role' => $role]);
+            }
+        }else{
+            $user_id= auth()->user()->id;
+            $course = DB::select("SELECT * FROM courses WHERE instructor_id = $user_id;");
+            return view('course.course_view', ['data' => $course,'role' => $role]);
+        }
     }
     public function course_list()
     {
@@ -86,11 +105,17 @@ class CourseController extends Controller
     }
     public function getById(Course $course)
     {
-        $course = Course::query()->where('id', $course->id)->with('materials','orders')->first();
-        // dd($course);
-        return view('course_detail', [
-            'course' => $course,
-        ]);
+        if(isset(auth()->user()->role)){
+            $role = auth()->user()->role;
+        }else{
+            $role='';
+        }
+        $course_id = $course->id;
+        $course = Course::query()->where('id', $course->id)->first();
+        $instructor = DB::select("SELECT * FROM users WHERE id = $course->instructor_id;");
+        // dd($instructor[0]->name);
+        $material = DB::select("SELECT * FROM materials WHERE course_id = $course_id;");
+        return view('course_detail', ['course' => $course, 'role' => $role, 'instructor' => $instructor,'material'=> $material]);
     }
     public function edit(Course $course)
     {
@@ -114,11 +139,19 @@ class CourseController extends Controller
         return view('course.course_view', ['data' => $course]);
     }
     public function getCourseByLearner(){
-        // $course = DB::select("SELECT courses.id, courses.image, courses.course_name, courses.price, courses.created_at,users.id, orders.course_id FROM courses INNER JOIN orders ON orders.course_id = courses.id INNER JOIN users ON orders.user_id = users.id WHERE (orders.esewa_status != 'failed' AND orders.esewa_status != 'unverified'); ");
-        // $user_id= auth()->user()->id;
-        // dd($user_id);
-        $course = Course::with('orders')
-        ->get();
-        return view('course.course_list', ['data' => $course]);
+        $user_id = auth()->user()->id;
+        $user_courses_ids = DB::select("SELECT course_id FROM orders WHERE user_id = $user_id AND esewa_status = 'verified';");
+        // dd($user_courses_ids['id']);
+        
+        foreach ($user_courses_ids as $key => $user_courses_id) {
+        $course_ids_arr[] =  $user_courses_id->course_id;
+        }
+        $course_ids = implode(',', $course_ids_arr);
+        if(isset($course_ids)){
+            $course = DB::select("SELECT * FROM courses WHERE id IN ($course_ids);");
+            return view('course.course_list', ['data' => $course]);
+        }else{
+            return view('course.course_list')->with('status', 'No any Course Purchased !!');
+        }
     }
 }

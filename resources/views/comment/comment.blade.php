@@ -4,7 +4,7 @@
 @endsection
 
 @section('content')
-    <div class="card">
+    <div class="card" style="height: 38.7rem;">
         <div class="card-header text-center">{{ $material->title }}</div>
         <div class="card-body mt-1">
             @if (session('status'))
@@ -18,12 +18,15 @@
                     <div class="col-md-9">
                         <input type="hidden" name="material_id" value="{{ $material->id }}">
                         <input type="hidden" name="course_id" value="{{ $material->course_id }}">
-                        {{-- <input type="hidden" name="instructor_id" value="1"> --}}
-                        <input type="hidden" name="learner_id" value="2">
+                        @if(auth()->user()->role=='instructor')
+                        <input type="hidden" name="instructor_id" value="{{auth()->user()->id}}">
+                        @else
+                        <input type="hidden" name="learner_id" value="{{auth()->user()->id}}">
+                        @endif
                         <input type="hidden" name="status" value="1">
-                        <div class="card" style="height: 37.5rem;">
+                        <div class="card" style="height: 34.5rem;">
                             @if ($material->file_extension == 'pdf' || $material->file_extension == 'png')
-                                <iframe style="height: 35rem;" src="{{ $material->files }}">
+                                <iframe style="height: 35rem;" src="/storage/{{ $material->files }}">
                                 @elseif($material->file_extension == 'mp4')
                                     <video width="945" height="547" class="px-2"controls preload="metadata"
                                         controlsList="nodownload nofullscreen noremoteplayback">
@@ -85,7 +88,7 @@
                         }
                     </style>
                     <div class="col-md-3">
-                        <div class="card" style="width: 19rem; height:29rem;overflow-y:auto;">
+                        <div class="card" style="width: 19rem; height:26rem;overflow-y:auto;">
                             <div class="card-header text-center bg-black">Comments</div>
                             <div class="card-body">
                                     @if ($comments != null)
@@ -94,14 +97,14 @@
                                                 <div class="container">
                                                     <img src="">
                                                     <p>{{ $comment->comment_text }}</p>
-                                                    <span class="time-right">{{ $comment->learner_id }} Learner</span><br>
+                                                    <span class="time-right">Learner</span><br>
                                                     <span class="time-right">{{ $comment->created_at }}</span>
                                                 </div>
                                             @elseif($comment->instructor_id != null && $comment->material_id == $material->id)
                                                 <div class="container darker">
                                                     <img src="" class="right">
                                                     <p>{{ $comment->comment_text }}</p>
-                                                    <span class="time-left">{{ $comment->instructor_id }}Instructor</span><br>
+                                                    <span class="time-left">Instructor</span><br>
                                                     <span class="time-left">{{ $comment->created_at }}</span>
                                                 </div>
                                             @endif

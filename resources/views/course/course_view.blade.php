@@ -9,7 +9,7 @@
     <div class="card" style="overflow-y: scroll; height: 100%; margin-left: -15px;">
         <div class="card-header">
             <h3 class="card-title">Course List</h3>
-            @if (auth()->user()->role == 'instructor')
+            @if ($role == 'instructor')
                 <a href="{{ route('course.add') }}"><button type="button" class="float-right btn btn-outline-primary" style="float: right;">
                         <i class="fa fa-plus"></i> {{ __('Add New') }}</button>
                 </a>
@@ -24,7 +24,7 @@
             @endif
             <div class="mb-3">
                 <div class="mx-auto pull-right">
-                        @if (auth()->user()->role == 'instructor')
+                        @if ($role == 'instructor')
                             <form action="{{ route('course.search') }}" method="GET" role="search">
                                 <div class="input-group">
                                     <span class="input-group-btn mr-3 mt-1">
@@ -59,7 +59,7 @@
                         @foreach ($data as $key => $course)
                             <div class="card-deck" style="width: 20rem;">
                                 <div class="card mt-2 mb-2 mr-4">
-                                    @if (auth()->user()->role == 'instructor')
+                                    @if ($role == 'instructor')
                                         <div class="card-header">
                                             <h5 class="mt-2 text-center">
                                                 <a href="{{ route('course.edit', $course->id) }}"><button type="button"
@@ -85,9 +85,9 @@
                             </div>
                         @endforeach
                     @else
-                        <tr>
-                            <th class="text-center">No data found</th>
-                        </tr>
+                    <div class="alert alert-primary col-12 text-center" role="alert">
+                        Oops !! Data Not Found !!
+                    </div>
                     @endif
                 </div>
             </div>

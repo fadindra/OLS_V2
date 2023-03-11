@@ -47,7 +47,7 @@
                     <div class="col-6">
                         <div class="mb-3">
                             <label for="description" class="form-label">Description : </label>
-                            <input type="text" name="description" class="form-control">
+                            <textarea type="text" name="description" class="form-control"></textarea>
                             @error('description')
                                 <div class="alert alert-light text-danger" role="alert">
                                     {{ __('Course Description Required') }}
@@ -79,7 +79,7 @@
                     </div>
                 </div>
                 <input type="hidden" name="status" value="1" class="form-control">
-                <input type="hidden" name="instructor_id" value="1" class="form-control">
+                <input type="hidden" name="instructor_id" value="{{auth()->user()->id}}" class="form-control">
                 <div class="col-4 my-2 mx-0">
                     <button type="submit" class="btn btn-primary btn-sm" style="margin-left:-6px;">
                         <i class="fas fa-plus px-1"></i>Add Course

@@ -17,7 +17,7 @@
             @csrf
             <div class="row">
                 <div class="col">
-                    <div class="card py-2" style="width:58.7rem;">
+                    <div class="card py-2" style="width:58.7rem; overflow-y: scroll;">
                         <div class="card-header">
                             <nav class="navbar navbar-light bg-light justify-content-between">
                                 <input class="form-control sm-4 quicksearch" style="width:50rem;" name="quicksearch"
@@ -29,8 +29,8 @@
                             <div class="card-body item-material d-flex flex-wrap" id="item">
                                 @if (count($course->materials) > 0)
                                     @foreach ($course->materials as $key => $material)
-                                        <div class="card-deck" style="width: 29rem;">
-                                            <div class="card mt-2 mb-2 mr-4 px-2">
+                                        <div class="card-deck" style="width: 28rem;">
+                                            <div class="card mt-2 mr-3 mb-2 px-2">
                                                 @if ($material->file_extension == 'pdf' || $material->file_extension == 'png')
                                                     <iframe height="225px" width="100%" src="../../dist/img/files.png"
                                                         name="{{ $material->title }}" style="border:none;">
@@ -54,9 +54,9 @@
                                         </div>
                                     @endforeach
                                 @else
-                                    <tr>
-                                        <th class="text-center">No data found</th>
-                                    </tr>
+                                <div class="alert alert-danger col-12 text-center" role="alert">
+                                    Resourdes Not Added Yet !!
+                                </div>
                                 @endif
                             </div>
                         </div>

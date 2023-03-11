@@ -34,9 +34,9 @@ Route::get('/', function () {
 //     return view('login.register');
 // })->name('register');
 
-Route::get('/course-detail', function () {
-    return view('course_detail');
-})->name('course.detail');
+// Route::get('/course-detail', function () {
+//     return view('course_detail');
+// })->name('course.detail');
 
 Route::get('/course-add', [CourseController::class, 'add'])->name('course.add');
 Route::get('/course-view', [CourseController::class, 'index'])->name('course.view');

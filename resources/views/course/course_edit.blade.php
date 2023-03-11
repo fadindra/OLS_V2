@@ -30,7 +30,7 @@
                             <div class="mb-3">
                                 <input type="hidden" name="course" value="{{ $course->id }}">
                                 <input type="hidden" name="status" value="1">
-                                <input type="hidden" name="instructor_id" value="1">
+                                <input type="hidden" name="instructor_id" value="{{auth()->user()->id}}">
                                 <label for="course_name" class="form-label">Course Name : </label>
                                 <input type="text" name="course_name" value="{{ $course->course_name }}"
                                     class="form-control">
@@ -44,8 +44,8 @@
                         <div class="col-4">
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description : </label>
-                                <input type="text" name="description" value="{{ $course->description }}"
-                                    class="form-control">
+                                <textarea type="text" name="description" class="form-control">{{ $course->description }}</textarea>
+                                    
                                 @error('description')
                                     <div class="alert alert-light text-danger" role="alert">
                                         {{ __('Course Description Required') }}
