@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Material;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,28 +13,48 @@ class MaterialController extends Controller
     public function index()
     {
         $role = auth()->user()->role;
-        if($role == 'learner'){
-            $user_id = auth()->user()->id;
-            $user_courses_ids = DB::select("SELECT course_id FROM orders WHERE user_id = $user_id AND esewa_status = 'verified';");
-            foreach ($user_courses_ids as $key => $user_courses_id) 
-            {
-                $course_ids_arr[] = $user_courses_id->course_id;
-            }
-            $course_ids = implode(',', $course_ids_arr);
-            if(isset($course_ids))
-            {
-                $course = DB::select("SELECT * FROM courses WHERE id IN ($course_ids);");
-                return view('material.material_view', ['data' => $course,'role' => $role]);
-            }
-            else{
-                $course = DB::select("SELECT * FROM courses;");
-                return view('material.material_view', ['data' => $course,'role' => $role]);
-            }
-        }else{
-            $user_id= auth()->user()->id;
-            $course = DB::select("SELECT * FROM courses WHERE instructor_id = $user_id;");
-            // dd($course);
+        $user = auth()->user();
+
+        
+        // dd($data);
+        //     $user_id = auth()->user()->id;
+        //     $user_courses_ids = DB::select("SELECT course_id FROM orders WHERE user_id = $user_id AND esewa_status = 'verified';");
+        //     foreach ($user_courses_ids as $key => $user_courses_id) 
+        //     {
+        //         $course_ids_arr[] = $user_courses_id->course_id;
+        //     }
+        //     if (count($course_ids_arr)) {
+            
+        //     }
+        //     $course_ids = implode(',', $course_ids_arr);
+        //     if(isset($course_ids))
+        //     {
+        //         $course = DB::select("SELECT * FROM courses WHERE id IN ($course_ids);");
+        //         return view('material.material_view', ['data' => $course,'role' => $role]);
+        //     }
+        //     else{
+        //         $course = DB::select("SELECT * FROM courses;");
+        //         return view('material.material_view', ['data' => $course,'role' => $role]);
+        //     }
+        // }else{
+        //     $user_id= auth()->user()->id;
+        //     $course = DB::select("SELECT * FROM courses WHERE instructor_id = $user_id;");
+        //     // dd($course);
+        if($role == "learner"){
+            $course = Order::query()
+            ->where('user_id',$user->id)
+            ->where('esewa_status','verified')
+            ->whereHas('user', function($q )use($role){
+                $q->where('role',$role);
+            })
+            ->with('course')
+            ->get();
             return view('material.material_view', ['data' => $course,'role' => $role]);
+        }else{
+            $course = Course::query()
+            ->where('instructor_id',$user->id)
+            ->get();
+            return view('material.material_view', ['data' => $course,'role' => $role]); 
         }
     }
     public function getById(Request $request)

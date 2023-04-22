@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+    protected $hashAlgo = 'customHash';
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -22,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'unique_salt',
     ];
 
     /**
@@ -57,11 +59,7 @@ class User extends Authenticatable
     }
     public function comments()
     { 
-    
-        return $this->hasMany(Comment::class);
+        return $this->belongsTo(Comment::class);
     }
-    public function users()
-    {
-        return $this->hasMany(Order::class);
-    }
+   
 }

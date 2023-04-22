@@ -1,3 +1,4 @@
+@extends('layout.config')
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,10 +8,13 @@
     <title>Payment {{$message}}</title>
 </head>
 <body>
-    <h1>
-        Your Payment : {{$message}}<br>
-        {{$success_message}}
-    </h1>
-    <a href="{{url('/')}}">Back</a>
+    <div class="card px-5 text-danger">
+        <h1>
+            Your Payment : {{$message}}<br>
+            {{$success_message}}
+        </h1>
+    </div>
+    
+    <button class="px-5 ml-5"><a href="{{url('/')}}">Back</a></button>
 </body>
 </html>

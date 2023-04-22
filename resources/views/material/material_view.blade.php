@@ -14,26 +14,38 @@
                     {{ session('status') }}
                 </div>
             @endif
+            {{-- @dd($data) --}}
             <form action="{{ route('material.add') }}" method="get">
                 @csrf
-                Select Course :
-                <select name="course_id" class="js-example-basic-single js-states form-control-sm" id="courses">
-                    @if (isset($data))
+                @if ($data->count())
+                    Select Course :
+                    <select name="course_id" class="js-example-basic-single js-states form-control-sm" id="courses">
                         <option selected>Select</option>
                         @foreach ($data as $key => $item)
-                            <option value="{{ $item->id }}">{{ $item->course_name }}
-                            </option>
+                            @if ($role == 'instructor')
+                                <option value="{{ $item->id }}">
+                                    {{ $item->course_name }}
+                                </option>
+                            @else
+                                <option value="{{ $item->course_id }}">
+                                    {{ $item->course->course_name }}
+                                </option>
+                            @endif
                         @endforeach
-                    @else
-                        <div>
-                            Oops !!
-                        </div>
-                    @endif
-                </select>
-                <button class="btn btn-info mt-2" type="submit" title="Search Courses">
-                    <span class="fas fa-search">&nbsp;Get</span>
-                </button>
+                    </select>
+
+                    <button class="btn btn-info mt-2" type="submit" title="Search Courses">
+                        <span class="fas fa-search">&nbsp;Get</span>
+                    </button>
             </form>
+        @else
+        @if ($role == 'learner')
+            <div class="text-center bg-danger px-2 py-2">Courses Not Purchased !!</div>
+            @else
+            <div class="text-center bg-danger px-2 py-2">Courses Not Added !!</div>
+        @endif
+            @endif
+
             <!-- /.card-body -->
         </div>
         <!-- /.card -->

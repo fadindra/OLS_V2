@@ -23,9 +23,11 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#courses">Courses Offered</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    {{-- <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li> --}}
+                    {{-- <li class="nav-item"><a class="nav-link" href="#contact">Login</a></li> --}}
                 </ul>
             </div>
+            <button type="button" class="btn btn-outline-primary"><a href="{{route('login')}}">Login</a></button>
         </div>
     </nav>
     <!-- Header-->
@@ -78,7 +80,7 @@
                             <div class="card mt-3 px-3 py-3 lead" style="width: 15rem;margin-right:40px;">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $item->course_name }}</h5>
-                                    <p class="card-text">{{ $item->description }}</p>
+                                    <p class="card-text">{{ Str::limit($item->description, 30) }}</p>
                                     <a href="{{ route('course.detail', $item->id) }}" class="btn btn-primary">View
                                         Details</a>
                                 </div>
@@ -87,13 +89,13 @@
                     </div>
                 </div>
                 <div class="container px-4 text-center">
-                    <a class="btn btn-lg btn-white mt-3" href="{{ route('course.list') }}">View More Courses</a>
+                    <a class="btn btn-lg btn-white mt-3" href="{{ route('course.lists') }}">View All Courses</a>
                     <div>
                     </div>
                 </div>
     </section>
     <!-- Contact section-->
-    <section id="contact">
+    {{-- <section id="contact">
         <div class="container px-4">
             <div class="row gx-4 justify-content-center">
                 <div class="col-lg-8">
@@ -104,7 +106,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- Footer-->
     <footer class="py-5 bg-dark">
         <div class="container px-4">

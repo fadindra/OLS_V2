@@ -7,6 +7,7 @@ use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
@@ -23,8 +24,20 @@ class LoginController extends Controller
             'email' => 'required',
             'password' => 'required',
         ]);
-   
         $credentials = $request->only('email', 'password');
+        // dd($credentials);
+        // dd($request->password);
+        $user = User::where('email', $request->email)->first();
+        // dd($user);
+        // $dBHashedPassword = $user->password;
+
+        // $dBStoredSalt = $user->unique_salt;
+        // $requestedPasswordHash = $this->customHash($request->password, $dBStoredSalt);
+        // dd($requestedPasswordHash); 
+        // if ($requestedPasswordHash == $dBHashedPassword) {
+            // $credentials['password'] .= $dBStoredSalt;
+        // }
+        // dd($credentials);
         if (Auth::attempt($credentials)) {
             return redirect()->intended('dashboard')
             ->withSuccess('Signed in');
@@ -64,11 +77,17 @@ class LoginController extends Controller
 
     public function create(array $data)
     {
+        $salt = bin2hex(random_bytes(16)); // 16 bytes of random data
+
+        $password = $data['password'];
+        $hashedPassword = $this->customHash($password, $salt);
+
       return User::create([
         'name' => $data['name'],
         'email' => $data['email'],
-        'password' => Hash::make($data['password']),
-        'role' => $data['role']
+        'password' => Hash::make($password),
+        'role' => $data['role'],
+        'unique_salt' => $salt,
       ]);
     }    
     
@@ -86,4 +105,30 @@ class LoginController extends Controller
   
         return Redirect('login');
     }
-}
+
+    public function customHash($password, $salt) {
+        $saltedPassword = $password . $salt;
+        $hash = hash_init('sha512');
+        hash_update($hash, $saltedPassword);
+        $digest = hash_final($hash, true);
+      
+        $hashResult = 0;
+        for ($i = 0; $i < strlen($digest); $i++) {
+          $char = ord($digest[$i]);
+          $hashResult = (($hashResult << 5) - $hashResult) + $char;
+          $hashResult &= 0xffffffff;
+        }
+      
+        for ($i = 0; $i < 10000; $i++) {
+          for ($j = 0; $j < strlen($digest); $j++) {
+            $char = ord($digest[$j]);
+            $hashResult = (($hashResult << 5) - $hashResult) + $char;
+            $hashResult &= 0xffffffff;
+      
+            $hashResult = (($hashResult << 2) | ($hashResult >> 30)) ^ $char;
+          }
+        }
+        
+        return $hashResult;
+      }
+    }

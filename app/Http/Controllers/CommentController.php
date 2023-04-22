@@ -12,7 +12,9 @@ class CommentController extends Controller
 {
     public function add(Material $material_id)
     { 
-        $comment = Comment::get();
+        // dd($material_id);
+        $comment = DB::select("SELECT * FROM comments INNER JOIN users ON comments.instructor_id = users.id OR comments.learner_id = users.id WHERE material_id = $material_id->id;");
+        // dd($comment);
         return view('comment.comment', [
             'material' => $material_id,
             'comments' => $comment,

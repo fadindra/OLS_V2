@@ -17,20 +17,26 @@ class CourseController extends Controller
         if($role == 'learner'){
             $user_id = auth()->user()->id;
             $user_courses_ids = DB::select("SELECT course_id FROM orders WHERE user_id = $user_id AND esewa_status = 'verified';");
-            foreach ($user_courses_ids as $key => $user_courses_id) 
-            {
-                $course_ids_arr[] = $user_courses_id->course_id;
-            }
-        $course_ids = implode(',', $course_ids_arr);
-            if(isset($course_ids))
-            {
-                $course = DB::select("SELECT * FROM courses WHERE id NOT IN ($course_ids);");
-                return view('course.course_view', ['data' => $course,'role' => $role]);
-            }
-            else{
+            if($user_courses_ids){
+                foreach ($user_courses_ids as $key => $user_courses_id) 
+                {
+                    $course_ids_arr[] = $user_courses_id->course_id;
+                }
+            $course_ids = implode(',', $course_ids_arr);
+                if(isset($course_ids))
+                {
+                    $course = DB::select("SELECT * FROM courses WHERE id NOT IN ($course_ids);");
+                    return view('course.course_view', ['data' => $course,'role' => $role]);
+                }
+                else{
+                    $course = DB::select("SELECT * FROM courses;");
+                    return view('course.course_view', ['data' => $course,'role' => $role]);
+                }
+            }else{
                 $course = DB::select("SELECT * FROM courses;");
                 return view('course.course_view', ['data' => $course,'role' => $role]);
             }
+            
         }else{
             $user_id= auth()->user()->id;
             $course = DB::select("SELECT * FROM courses WHERE instructor_id = $user_id;");
@@ -43,6 +49,13 @@ class CourseController extends Controller
         ->orderBy('id','desc')
         ->get();
         return view('course.course_list', ['data' => $course]);
+    }
+    public function course_lists()
+    {
+        $course = Course::query()
+        ->orderBy('id','desc')
+        ->get();
+        return view('course_lists', ['data' => $course]);
     }
     public function getAll()
     {
@@ -140,18 +153,44 @@ class CourseController extends Controller
     }
     public function getCourseByLearner(){
         $user_id = auth()->user()->id;
-        $user_courses_ids = DB::select("SELECT course_id FROM orders WHERE user_id = $user_id AND esewa_status = 'verified';");
-        // dd($user_courses_ids['id']);
+
+        $courses = Order::query()
+        ->where('user_id',$user_id)
+        ->where('esewa_status','verified')
+        ->whereHas('course',function($q){
+            $q->where('status',true);
+        })
+        ->with('course')
+        ->get();
+        return view('course.course_list', ['data' => $courses]);
+
+        // $user_courses_ids = DB::select("SELECT course_id FROM orders WHERE user_id = $user_id AND esewa_status = 'verified';");
+        // // dd($user_courses_ids['id']);
         
-        foreach ($user_courses_ids as $key => $user_courses_id) {
-        $course_ids_arr[] =  $user_courses_id->course_id;
-        }
-        $course_ids = implode(',', $course_ids_arr);
-        if(isset($course_ids)){
-            $course = DB::select("SELECT * FROM courses WHERE id IN ($course_ids);");
-            return view('course.course_list', ['data' => $course]);
-        }else{
-            return view('course.course_list')->with('status', 'No any Course Purchased !!');
-        }
+        // foreach ($user_courses_ids as $key => $user_courses_id) {
+        // $course_ids_arr[] =  $user_courses_id->course_id;
+        // }
+        // $course_ids = implode(',', $course_ids_arr);
+        // if(isset($course_ids)){
+            //     $course = DB::select("SELECT * FROM courses WHERE id IN ($course_ids);");
+            //     return view('course.course_list', ['data' => $courses]);
+        // }else{
+        //     return view('course.course_list')->with('status', 'No any Course Purchased !!');
+        // }
     }
+
+    public function manage_learner(){
+        $learner = DB::select("SELECT * FROM users WHERE role = 'learner';");
+
+        return view('user.learner', [
+            'learners' => $learner,
+        ]);
+      }
+    public function manage_instructor(){
+        $instructor = DB::select("SELECT * FROM users WHERE role = 'instructor';");
+
+        return view('user.instructor', [
+            'instructors' => $instructor,
+        ]);
+      }
 }

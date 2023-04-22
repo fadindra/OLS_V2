@@ -27,4 +27,8 @@ class Comment extends Model
     {
       return $this->hasMany(Material::class);
     }
+    public function user()
+    {
+      return $this->hasMany(User::class);
+    }
 }

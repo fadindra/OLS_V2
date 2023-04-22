@@ -38,17 +38,26 @@ Route::get('/', function () {
 //     return view('course_detail');
 // })->name('course.detail');
 
+/*----------------------------Course Routes------------------------------------------*/
+
 Route::get('/course-add', [CourseController::class, 'add'])->name('course.add');
 Route::get('/course-view', [CourseController::class, 'index'])->name('course.view');
 Route::get('/course-list', [CourseController::class, 'course_list'])->name('course.list');
+Route::get('/course-list-all', [CourseController::class, 'course_lists'])->name('course.lists');
 Route::get('/learner-course-list', [CourseController::class, 'getCourseByLearner'])->name('learners.courselist');
 Route::post('/course-store', [CourseController::class, 'store'])->name('course.store');
 Route::get('/course-edit/{course}',[CourseController::class,'edit'])->name('course.edit');
 Route::post('/course-update', [CourseController::class, 'update'])->name('course.update');
 Route::get('/course-delete/{course}', [CourseController::class, 'delete'])->name('course.delete');
 Route::get('/course-search', [CourseController::class, 'search'])->name('course.search');
-Route::get('/home', [CourseController::class, 'getAll'])->name('homepage');
 Route::get('/course-detail/{course}', [CourseController::class, 'getById'])->name('course.detail');
+
+/* ----------------------------Homepage Route-----------------------------------------*/
+
+Route::get('/home', [CourseController::class, 'getAll'])->name('homepage');
+
+/*-----------------------------Resources and Comment Routes---------------------------*/ 
+
 Route::get('/resource-view', [MaterialController::class, 'index'])->name('material.view');
 Route::get('/resource-add', [MaterialController::class, 'getById'])->name('material.add');
 Route::post('/material-store', [MaterialController::class, 'store'])->name('material.store');
@@ -56,6 +65,7 @@ Route::post('/material-store', [MaterialController::class, 'store'])->name('mate
 Route::get('/comment/{material_id}', [CommentController::class, 'add'])->name('comment.add');
 Route::post('/comment-store', [CommentController::class, 'store'])->name('comment.store');
 
+/*-----------------------------Payment Routes-----------------------------------------*/
 
 Route::post('/pay', [PaymentController::class, 'pay'])->name('pay');
 Route::get('/success', [PaymentController::class, 'paySuccess']);
@@ -63,12 +73,15 @@ Route::get('/failure', [PaymentController::class, 'payFailure']);
 Route::get('/payment/{course}', [PaymentController::class, 'index'])->name('course.payment');
 
 
-// Login Routes
+
 // Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 // Route::post('/login', [LoginController::class, 'login']);
 // Route::get('/register', [LoginController::class, 'showRegistrationForm'])->name('register');
 // Route::post('/register', [LoginController::class, 'register']);
 // Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+
+/*------------------------------Login Routes----------------------------------------*/
 
 Route::get('dashboard', [LoginController::class, 'dashboard']); 
 Route::get('login', [LoginController::class, 'index'])->name('login');
@@ -77,3 +90,10 @@ Route::get('registration', [LoginController::class, 'registration'])->name('regi
 Route::post('custom-registration', [LoginController::class, 'customRegistration'])->name('register.custom'); 
 Route::get('signout', [LoginController::class, 'signOut'])->name('signout');
 Route::get('profile', [LoginController::class, 'profile'])->name('profile');
+
+
+/*------------------------------Admin Routes----------------------------------------*/
+// Route::get('learner-list', [LoginController::class, 'manage_learner'])->name('manage.learner');
+// Route::get('learner-list', [LoginController::class, 'manage_instructor'])->name('manage.instructor');
+Route::get('learner-list', [CourseController::class, 'manage_learner'])->name('manage.learner');
+Route::get('instructor-list', [CourseController::class, 'manage_instructor'])->name('manage.instructor');

@@ -18,9 +18,9 @@ class Order extends Model
     
         return $this->belongsTo(Course::class);
     }
-    public function users():HasMany
+    public function user():BelongsTo
     { 
     
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class);
     }
 }

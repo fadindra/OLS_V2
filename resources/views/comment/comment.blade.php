@@ -26,14 +26,15 @@
                         <input type="hidden" name="status" value="1">
                         <div class="card" style="height: 34.5rem;">
                             @if ($material->file_extension == 'pdf' || $material->file_extension == 'png')
-                                <iframe style="height: 35rem;" src="/storage/{{ $material->files }}">
-                                @elseif($material->file_extension == 'mp4')
+                            <iframe style="height: 35rem;" src="/storage/{{ $material->files }}#toolbar=0">
+                                @elseif($material->file_extension == 'mp4' || $material->file_extension == 'mp3')
                                     <video width="945" height="547" class="px-2"controls preload="metadata"
-                                        controlsList="nodownload nofullscreen noremoteplayback">
+                                        controlsList="nodownload nofullscreen">
                                         <source src="/storage/{{ $material->files }}" type="video/mp4">
                                     </video>
                             @endif
                             </iframe>
+
                         </div>
                     </div>
                     <style>
@@ -97,14 +98,14 @@
                                                 <div class="container">
                                                     <img src="">
                                                     <p>{{ $comment->comment_text }}</p>
-                                                    <span class="time-right">Learner</span><br>
+                                                    <span class="time-right">{{$comment->name}}</span><br>
                                                     <span class="time-right">{{ $comment->created_at }}</span>
                                                 </div>
                                             @elseif($comment->instructor_id != null && $comment->material_id == $material->id)
                                                 <div class="container darker">
                                                     <img src="" class="right">
                                                     <p>{{ $comment->comment_text }}</p>
-                                                    <span class="time-left">Instructor</span><br>
+                                                    <span class="time-left">{{$comment->name}}</span><br>
                                                     <span class="time-left">{{ $comment->created_at }}</span>
                                                 </div>
                                             @endif

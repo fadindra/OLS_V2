@@ -6,6 +6,7 @@
 @endsection
 
 @section('content')
+    {{-- @dd($course); --}}
     <div class="card-header text-bold text-center">{{ $course->course_name }}</div>
     <div class="card-body mt-1">
         @if (session('status'))
@@ -35,14 +36,14 @@
                                                     <iframe height="225px" width="100%" src="../../dist/img/files.png"
                                                         name="{{ $material->title }}" style="border:none;">
                                                     </iframe>
-                                                @elseif($material->file_extension == 'mp4')
+                                                @elseif($material->file_extension == 'mp4' || $material->file_extension == 'mp3')
                                                     <video width="370" height="240" controls preload="metadata"
                                                         controlsList="nodownload nofullscreen noremoteplayback">
                                                         <source src="/storage/{{ $material->files }}" type="video/mp4">
                                                     </video>
                                                 @endif
                                                 <div class="card-body">
-                                                    <a href="{{ route('comment.add',['material_id' => $material->id]) }}">
+                                                    <a href="{{ route('comment.add', ['material_id' => $material->id]) }}">
                                                         <h5 class="card-title">{{ $material->title }}</h5>
                                                     </a>
                                                     <p class="card-text">{{ $material->description }}</p>
@@ -54,59 +55,59 @@
                                         </div>
                                     @endforeach
                                 @else
-                                <div class="alert alert-danger col-12 text-center" role="alert">
-                                    Resourdes Not Added Yet !!
-                                </div>
+                                    <div class="alert alert-danger col-12 text-center" role="alert">
+                                        Resourdes Not Added Yet !!
+                                    </div>
                                 @endif
                             </div>
                         </div>
 
                     </div>
                 </div>
-                @if(auth()->user()->role =='instructor')
-                <div class="col col-lg-3">
-                    <div class="card bg-dark">
-                        <div class="card-header text-bold">
-                            Upload Resources:
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <input type="hidden" name="course_id" value="{{ $course->id }}">
-                                <input type="hidden" name="status" value="1">
-                                <label for="title">Resource Title</label>
-                                <input type="text" class="form-control" id="text" name="title"
-                                    aria-describedby="textHelp" placeholder="Enter title">
-                                @error('title')
-                                    <div class="alert alert-light text-danger" role="alert">
-                                        {{ __('Resource Title Required') }}
-                                    </div>
-                                @enderror
+                @if (auth()->user()->role == 'instructor')
+                    <div class="col col-lg-3">
+                        <div class="card bg-dark">
+                            <div class="card-header text-bold">
+                                Upload Resources:
                             </div>
-                            <div class="form-group">
-                                <label for="description">Description</label>
-                                <textarea type="text" class="form-control text-wrap" id="description" name="description" placeholder="Description"></textarea>
-                                @error('description')
-                                    <div class="alert alert-light text-danger" role="alert">
-                                        {{ __('Reosurce Description Required') }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="type" class="form-label">Files Related to Course : </label>
-                                <input type="file" name="image" class="form-control">
-                                @error('image')
-                                    <div class="alert alert-light text-danger" role="alert">
-                                        {{ __('Files Required') }}
-                                    </div>
-                                @enderror
-                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                    <input type="hidden" name="status" value="1">
+                                    <label for="title">Resource Title</label>
+                                    <input type="text" class="form-control" id="text" name="title"
+                                        aria-describedby="textHelp" placeholder="Enter title">
+                                    @error('title')
+                                        <div class="alert alert-light text-danger" role="alert">
+                                            {{ __('Resource Title Required') }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea type="text" class="form-control text-wrap" id="description" name="description" placeholder="Description"></textarea>
+                                    @error('description')
+                                        <div class="alert alert-light text-danger" role="alert">
+                                            {{ __('Reosurce Description Required') }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label for="type" class="form-label">Files Related to Course : </label>
+                                    <input type="file" name="image" class="form-control">
+                                    @error('image')
+                                        <div class="alert alert-light text-danger" role="alert">
+                                            {{ __('Files Required') }}
+                                        </div>
+                                    @enderror
+                                </div>
 
-                            <button style="float:right" class="btn btn-primary mt-2" type="submit">
-                                <span>&nbsp;Add</span>
-                            </button>
+                                <button style="float:right" class="btn btn-primary mt-2" type="submit">
+                                    <span>&nbsp;Add</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
                 @endif
         </form>
         <!-- /.card-body -->
