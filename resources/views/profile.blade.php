@@ -7,32 +7,31 @@
           <div class="card" style="border-radius: 15px;">
             <div class="card-body p-4">
               <div class="d-flex text-black">
-                <div class="flex-shrink-0">
+                {{-- <div class="flex-shrink-0">
                   <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
                     alt="Generic placeholder image" class="img-fluid"
-                    style="width: 180px; border-radius: 10px;">
-                </div>
+                    style="width: 490px; border-radius: 10px;">
+                </div> --}}
                 <div class="flex-grow-1 ms-3">
-                  <h5 class="mb-1">{{$profile->name}}</h5>
-                  <p class="mb-2 pb-1" style="color: #2b2a2a;">{{$profile->role}}</p>
+                  <h5 class="mb-1 text-center">{{$profile->name}} Details</h5>
+                  {{-- <p class="mb-2 pb-1" style="color: #2b2a2a;">{{$profile->role}}</p> --}}
                   <div class="d-flex justify-content-start rounded-3 p-2 mb-2"
                     style="background-color: #efefef;">
                     <div>
-                      <p class="small text-muted mb-1">Articles</p>
-                      <p class="mb-0">41</p>
+                      <p class="small text-muted mb-1">Name</p>
+                      <p class="mb-0">{{$profile->name}}</p>
                     </div>
                     <div class="px-3">
-                      <p class="small text-muted mb-1">Followers</p>
-                      <p class="mb-0">976</p>
+                      <p class="small text-muted mb-1">Email</p>
+                      <p class="mb-0">{{$profile->email}}</p>
                     </div>
                     <div>
-                      <p class="small text-muted mb-1">Rating</p>
-                      <p class="mb-0">8.5</p>
+                      <p class="small text-muted mb-1">Role</p>
+                      <p class="mb-0">{{$profile->role}}</p>
                     </div>
                   </div>
                   <div class="d-flex pt-1">
-                    <button type="button" class="btn btn-outline-primary me-1 flex-grow-1">Back</button>
-                    <button type="button" class="btn btn-primary flex-grow-1">Edit</button>
+                    <a href="{{ route('dashboard') }}" class="btn btn-primary">Back</a>{{-- <button type="button" class="btn btn-primary flex-grow-1">Edit</button> --}}
                   </div>
                 </div>
               </div>

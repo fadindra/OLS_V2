@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,7 +84,7 @@ Route::get('/payment/{course}', [PaymentController::class, 'index'])->name('cour
 
 /*------------------------------Login Routes----------------------------------------*/
 
-Route::get('dashboard', [LoginController::class, 'dashboard']); 
+Route::get('dashboard', [LoginController::class, 'dashboard'])->name('dashboard'); 
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('custom-login', [LoginController::class, 'customLogin'])->name('login.custom'); 
 Route::get('registration', [LoginController::class, 'registration'])->name('register-user');

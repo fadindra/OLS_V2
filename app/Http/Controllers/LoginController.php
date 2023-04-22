@@ -54,8 +54,11 @@ class LoginController extends Controller
 
     public function profile()
     {
+        $user_id  = auth()->user()->id;
         $user = User::query()
+        ->where('id',$user_id)
         ->first();
+
         return view('profile', ['profile' => $user]);
     }
       
