@@ -17,8 +17,12 @@
         <form action="{{ route('material.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row">
-                <div class="col">
+                <div class="col"> 
+                    @if (auth()->user()->role == 'instructor')
                     <div class="card py-2" style="width:58.7rem; overflow-y: scroll;">
+                    @else
+                    <div class="card py-2" style="width:100%; overflow-y: scroll;">
+                    @endif
                         <div class="card-header">
                             <nav class="navbar navbar-light bg-light justify-content-between">
                                 <input class="form-control sm-4 quicksearch" style="width:50rem;" name="quicksearch"

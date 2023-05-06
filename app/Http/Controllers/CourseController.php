@@ -151,6 +151,25 @@ class CourseController extends Controller
             ->get();
         return view('course.course_view', ['data' => $course]);
     }
+    public function BinarySearch(array $search_arr, int $course, int $start, int $stop)
+	{
+  	  	while ($start <= $stop)
+		 {
+       	 		$middleIndex = $start + ($stop - $start) / 2;
+       	 		if ($search_arr[$middleIndex] == $course)
+			{
+          	  		return $middleIndex;
+      	  		if ($search_arr[$middleIndex] > $course)
+			{
+            				$start = $middleIndex + 1;
+			}
+        		else
+            			$stop = $middleIndex - 1;
+  	  		}
+   		 	return -1;
+		  }
+	}
+
     public function getCourseByLearner(){
         $user_id = auth()->user()->id;
 

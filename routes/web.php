@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssessmentController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\LoginController;
@@ -66,6 +67,12 @@ Route::post('/material-store', [MaterialController::class, 'store'])->name('mate
 Route::get('/comment/{material_id}', [CommentController::class, 'add'])->name('comment.add');
 Route::post('/comment-store', [CommentController::class, 'store'])->name('comment.store');
 
+/*-----------------------------Assessment Routes-----------------------------------------*/
+Route::get('/assessment-view', [AssessmentController::class, 'index'])->name('assessement.view');
+Route::get('/assessment-add', [AssessmentController::class, 'getById'])->name('assessement.add');
+Route::post('/assessment-store', [AssessmentController::class, 'store'])->name('assessement.store');
+Route::get('/assessment/{assessment_id}', [AssessmentController::class, 'getAssessments'])->name('assessement.submit.add');
+Route::post('/assessment-submit-store', [AssessmentController::class, 'submitAssessmentStore'])->name('assessement.submit.store');
 /*-----------------------------Payment Routes-----------------------------------------*/
 
 Route::post('/pay', [PaymentController::class, 'pay'])->name('pay');

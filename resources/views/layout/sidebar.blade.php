@@ -59,6 +59,27 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item @yield('assessment_child_operate')">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-rotate nav-icon"></i>
+                        <p>
+                            {{ __('Assessments') }}
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item ml-1">
+                            <a href="{{ route('assessement.view') }}" class="nav-link @yield('assessment_view')">
+                                <i class="far fa-circle nav-icon"></i>
+                                @if (auth()->user()->role == 'instructor')
+                                <p>{{ __('Add') }}</p>
+                                @else
+                                <p>{{ __('View') }}</p>
+                                @endif
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 @else
                 <li class="nav-item @yield('admin_child_operate')">
                     <a href="#" class="nav-link">
