@@ -102,10 +102,10 @@ class AssessmentController extends Controller
         // dd($material_id);
         $assessment_submits = DB::select("SELECT * FROM assessment_submits 
         INNER JOIN users
-        ON assessment_submits.learner_id = users.id;
+        ON assessment_submits.learner_id = users.id
         WHERE assessment_id = $assessment_id->id;");
 
-        // dd($assessment_submits);
+        //dd($assessment_submits);
         return view('assessment.assessment_submit', [
             'assessment' => $assessment_id,
             'assessement_submits' => $assessment_submits,
@@ -139,7 +139,7 @@ class AssessmentController extends Controller
     }else{
         // dd('here');
         $marks_obtained = $request->marks_obtained;
-        DB::select("UPDATE assessment_submits SET marks_obtained = $marks_obtained WHERE id = $request->assessment_id ;");
+        DB::select("UPDATE assessment_submits SET marks_obtained = $marks_obtained WHERE id = $request->assessment_id AND learner_id = $request->learner_id ;");
         return redirect()->route('assessement.submit.add', ['assessment_id' => $request->assessment_id]);
     }
     }
